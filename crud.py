@@ -11,38 +11,17 @@ from DB_sesion_manager import DBSessionManager
 @handle_db_errors
 def create_item(db: Session, name: str, description: str):
     item = Item(name=name, description=description)
-    try:
-        db.add(item)
-        db.commit()
-        db.refresh(item)
-    except exc.SQLAlchemyError as e:
-        db.rollback()
-        print(f"Database error: {e}")
-    except exc.IntegrityError as e:
-        db.rollback()
-        print(f"Constraint error: {e}")
-    except Exception as e:
-        db.rollback()
-        print(f"Unespected error: {e}")
+    db.add(item)
+    db.commit()
+    db.refresh(item)
     return item
 # READ
 
 
 @handle_db_errors
 def get_item(db: Session, item_id: int):
-    try:
-        item = db.query(Item).filter(Item.id == item_id).first()
-        return item
-    except exc.SQLAlchemyError as e:
-        db.rollback()
-        print(f"Database error: {e}")
-    except exc.IntegrityError as e:
-        db.rollback()
-        print(f"Constraint error: {e}")
-    except Exception as e:
-        db.rollback()
-        print(f"Unespected error: {e}")
-    return None  # No se encontró el item
+    item = db.query(Item).filter(Item.id == item_id).first()
+    return item
 
 
 @handle_db_errors

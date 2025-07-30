@@ -28,13 +28,19 @@ def read(item_id: Annotated[int, typer.Argument()] = None):
     db = SessionLocal()
     if item_id:
         item = crud.get_item(db, item_id)
-        print(
-            f"created object: name: {item.name}, description: {item.description}")
+        if item != None:
+            print(
+                f"created object: name: {item.name}, description: {item.description}")
+        else:
+            print("No se encontro el item")
     else:
         items = crud.get_items(db)
-        for item in items:
-            print(
-                f"created object: id: {item.id}, name: {item.name}, description: {item.description}")
+        if len(items) > 0:
+            for item in items:
+                print(
+                    f"created object: id: {item.id}, name: {item.name}, description: {item.description}")
+        else:
+            print("No hay items disponibles")
     db.close()
 
 
