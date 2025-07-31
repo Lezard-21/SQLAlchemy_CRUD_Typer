@@ -1,7 +1,3 @@
-# ---------------------------
-# Custom Exception Hierarchy
-# ---------------------------
-
 class DatabaseException(Exception):
     """Base exception for all database errors"""
 
